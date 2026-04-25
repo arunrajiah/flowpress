@@ -1,252 +1,321 @@
 # Contributing to FlowPress
 
-Thank you for taking the time to contribute! FlowPress is a community project and every contribution — from a typo fix to a new feature — makes a difference.
+Thank you for taking the time to contribute! FlowPress is a community project and every contribution — bug reports, feature requests, code, docs, or tests — makes a difference.
 
-Please read this guide before opening a pull request or issue. Following these guidelines helps maintainers and the community review and accept your contributions quickly.
-
----
+Please read this guide before opening a pull request or issue. Following these guidelines helps maintainers review and accept your contributions quickly.
 
 ## Table of Contents
 
-1. [Code of Conduct](#code-of-conduct)
-2. [I have a question](#i-have-a-question)
-3. [Reporting bugs](#reporting-bugs)
-4. [Suggesting features](#suggesting-features)
-5. [Your first contribution](#your-first-contribution)
-6. [Pull request process](#pull-request-process)
-7. [Coding standards](#coding-standards)
-8. [Running tests locally](#running-tests-locally)
-9. [Commit message style](#commit-message-style)
+- [Code of Conduct](#code-of-conduct)
+- [Reporting bugs](#reporting-bugs)
+- [Requesting features](#requesting-features)
+- [Development setup](#development-setup)
+- [Making changes](#making-changes)
+- [Pull request checklist](#pull-request-checklist)
+- [Coding standards](#coding-standards)
+- [Writing a custom trigger](#writing-a-custom-trigger)
+- [Writing a custom action](#writing-a-custom-action)
+- [Tests](#tests)
 
 ---
 
 ## Code of Conduct
 
-This project is governed by the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating you agree to uphold it. Please report unacceptable behaviour to the project maintainers via a private GitHub message or at the email address listed in CODE_OF_CONDUCT.md.
+Please be respectful and constructive in all interactions. We follow the [Contributor Covenant](https://www.contributor-covenant.org/) code of conduct. Report unacceptable behaviour to **arunrajiah@gmail.com**.
 
 ---
 
-## I have a question
+## Reporting bugs
 
-Before opening an issue please:
+Before opening a new issue:
 
-1. Read the [README](README.md) and [readme.txt](readme.txt).
-2. Search [existing issues](https://github.com/flowpress/flowpress/issues) — your question may already be answered.
-3. Check the [GitHub Discussions](https://github.com/flowpress/flowpress/discussions) board.
+1. Search [existing issues](https://github.com/arunrajiah/flowpress/issues) to avoid duplicates.
+2. Reproduce the bug on a clean WordPress installation if possible.
 
-If you still need help, open a new Discussion rather than an issue.
+A good bug report includes:
 
----
+- WordPress version, PHP version, FlowPress version
+- Step-by-step reproduction instructions
+- Expected vs actual behaviour
+- Error messages or stack traces (check your PHP error log and browser console)
+- Whether the bug also occurs with all other plugins deactivated
 
-## Reporting Bugs
-
-Use the **Bug Report** issue template. Please include:
-
-- A **clear and descriptive title**.
-- **Steps to reproduce** the problem — be as specific as possible.
-- **Expected behaviour** — what you expected to happen.
-- **Actual behaviour** — what actually happened, including any error messages.
-- **Environment:** WordPress version, PHP version, active theme, list of active plugins.
-- **Screenshots or screen recordings** if they help illustrate the problem.
-
-> **Security vulnerabilities** should _not_ be reported via public GitHub issues.  
-> Please email the maintainers privately or use [GitHub Security Advisories](https://github.com/flowpress/flowpress/security/advisories/new).
+> **Security vulnerabilities** should not be reported via public GitHub issues.
+> See [SECURITY.md](SECURITY.md) for the private disclosure process.
 
 ---
 
-## Suggesting Features
+## Requesting features
 
-Use the **Feature Request** issue template. Please:
+Open a [Feature Request issue](https://github.com/arunrajiah/flowpress/issues/new) with:
 
-- Check whether the feature has already been requested or is on the [roadmap](README.md#planned-feature-phases).
-- Describe the problem your feature solves (not just the solution).
-- Provide example use-cases so maintainers can evaluate impact.
-
----
-
-## Your First Contribution
-
-Looking for somewhere to start? Check the issues labelled:
-
-- [`good first issue`](https://github.com/flowpress/flowpress/labels/good%20first%20issue) — well-scoped, beginner-friendly tasks.
-- [`help wanted`](https://github.com/flowpress/flowpress/labels/help%20wanted) — tasks where maintainer bandwidth is limited.
-
-You do not need to ask permission before working on a `good first issue`. Just comment on it to signal your intent so two people do not duplicate effort.
+- A clear use case ("As a developer I need…")
+- Why it fits the project scope (on-site automation, no cloud dependency)
+- Whether you are willing to implement it yourself
 
 ---
 
-## Pull Request Process
-
-1. **Fork** the repository and create your branch from `main`:
-   ```bash
-   git checkout -b feature/my-feature-name
-   # or
-   git checkout -b fix/issue-123-short-description
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   composer install
-   ```
-
-3. **Make your changes**, following the [coding standards](#coding-standards) below.
-
-4. **Add or update tests** for any new behaviour. PRs that reduce test coverage will not be merged.
-
-5. **Run checks locally** before pushing (see [Running tests locally](#running-tests-locally)):
-   ```bash
-   composer run cs
-   composer run test
-   ```
-
-6. **Commit** with a [clear message](#commit-message-style).
-
-7. **Push** your branch and **open a pull request** against `main`. Fill in the PR template — explain *what* changed and *why*.
-
-8. Maintainers will review your PR. Please be patient and responsive to feedback. A review may take a few days.
-
-9. Once approved, a maintainer will merge your PR. Squash merging is preferred to keep `git log` clean.
-
-### PR acceptance criteria
-
-- All CI checks pass (PHPCS + PHPUnit matrix).
-- New public functions / classes have PHPDoc docblocks.
-- No decrease in test coverage.
-- No new third-party PHP dependencies introduced without prior discussion in an issue.
-- `CHANGELOG.md` updated under `## [Unreleased]` if the change is user-facing.
-
----
-
-## Coding Standards
-
-FlowPress follows the **[WordPress Coding Standards](https://developer.wordpress.org/coding-standards/)**.
-
-### PHP
-
-- **Indentation:** tabs (not spaces) — WordPress PHP standard.
-- **Line endings:** Unix (`\n`).
-- **PHP opening tag:** always `<?php` — never short tags.
-- **Yoda conditions:** `if ( 'value' === $var )` not `if ( $var === 'value' )`.
-- **Spaces inside parentheses:** `if ( $condition )` not `if($condition)`.
-- **Docblocks:** every class, method, and property must have a PHPDoc comment with `@since`, `@param`, and `@return` as appropriate.
-- **Escaping output:** always use `esc_html()`, `esc_url()`, `esc_attr()`, `wp_kses_post()`, etc. Never echo raw variables.
-- **Sanitise input:** always use `sanitize_text_field()`, `absint()`, etc. when reading `$_GET`, `$_POST`, or options.
-- **Nonces:** all forms and AJAX handlers must verify a nonce.
-- **Prefix everything:** functions, classes, hooks, options, and globals must be prefixed with `flowpress_` or `FlowPress_` / `FlowPress\`.
-
-Run the coding-standards checker:
+## Development setup
 
 ```bash
-composer run cs
-```
+# Clone
+git clone https://github.com/arunrajiah/flowpress.git
+cd flowpress
 
-To automatically fix fixable errors:
-
-```bash
-./vendor/bin/phpcbf --standard=phpcs.xml .
-```
-
-### File naming
-
-- Class files: `class-{classname-in-lowercase-hyphenated}.php` (WordPress convention).
-- No underscores in file names — use hyphens.
-
----
-
-## Running Tests Locally
-
-### Prerequisites
-
-- PHP 7.4+
-- Composer
-- MySQL / MariaDB
-- WP-CLI (optional but recommended)
-
-### 1. Install Composer dependencies
-
-```bash
+# Install PHP dependencies
 composer install
-```
 
-### 2. Set up the WordPress test suite
-
-The WordPress core test library must be cloned separately. Use the bundled install script (modelled on WP-CLI's scaffold):
-
-```bash
+# Install WordPress test suite (one-time, requires a local MySQL instance)
 bash bin/install-wp-tests.sh wordpress_test root '' localhost latest
 ```
 
-Arguments:
+---
 
-| Argument | Description | Example |
-|----------|-------------|---------|
-| `$1` | Test database name | `wordpress_test` |
-| `$2` | DB user | `root` |
-| `$3` | DB password | `''` (empty) |
-| `$4` | DB host | `localhost` |
-| `$5` | WP version | `latest` |
+## Making changes
 
-> **Warning:** This script creates and drops the test database on every run. Do not point it at a database containing real data.
+### Branch naming
 
-The script clones WordPress core and the test library into `/tmp/wordpress-tests-lib` and `/tmp/wordpress/` by default. Set `$WP_TESTS_DIR` to override.
+| Type | Pattern | Example |
+|---|---|---|
+| Feature | `feat/<short-description>` | `feat/add-slack-action` |
+| Bug fix | `fix/<short-description>` | `fix/retry-queue-cron-interval` |
+| Documentation | `docs/<short-description>` | `docs/developer-api-guide` |
+| Chore | `chore/<short-description>` | `chore/bump-phpunit` |
 
-### 3. Run PHPUnit
+### Commit style
 
-```bash
-composer run test
-# or directly:
-./vendor/bin/phpunit
+Use [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat(runner): support multiple trigger payload merges
+fix(list-table): restore column headers lost after WP 6.5 update
+docs(readme): add token reference table
+chore(ci): add PHP 8.2 to PHPUnit matrix
+test(conditions): cover greater_than operator with floats
 ```
 
-### 4. Run PHPCS
+### Workflow
 
-```bash
-composer run cs
-```
-
-### Running a single test file
-
-```bash
-./vendor/bin/phpunit tests/test-plugin-activation.php
-```
-
-### Environment variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `WP_TESTS_DIR` | `/tmp/wordpress-tests-lib` | Path to WP test library |
-| `WP_CORE_DIR` | `/tmp/wordpress/` | Path to WP core install |
-| `DB_NAME` | `wordpress_test` | Test database name |
-| `DB_USER` | `root` | DB user |
-| `DB_PASS` | _(empty)_ | DB password |
-| `DB_HOST` | `localhost` | DB host |
+1. Fork the repository.
+2. Create a branch from `main`.
+3. Make your changes — keep each commit focused on a single concern.
+4. Run the full check locally (see [Tests](#tests)) before pushing.
+5. Open a pull request against `main`.
 
 ---
 
-## Commit Message Style
+## Pull request checklist
 
-Follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) spec:
+- [ ] `composer test` passes — no failures, no errors
+- [ ] `composer cs` passes — zero PHPCS errors (warnings are OK)
+- [ ] New functionality has tests in `tests/`
+- [ ] `CHANGELOG.md` has an entry under `[Unreleased]`
+- [ ] PR description explains the problem and the solution
+- [ ] Breaking changes (if any) are called out explicitly
 
+---
+
+## Coding standards
+
+FlowPress follows [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/) (PHPCS rule set in `phpcs.xml`).
+
+```bash
+# Check
+composer cs
+
+# Auto-fix
+composer cs-fix
 ```
-<type>(<scope>): <short summary>
 
-[optional body]
+**PHP compatibility:** all code must run on PHP 7.4 through 8.3.
 
-[optional footer(s)]
+**Key rules:**
+
+- Prefix all global functions, classes, and constants with `flowpress_` / `FlowPress_` / `FLOWPRESS_`.
+- Sanitise all inputs with the appropriate WordPress function (`sanitize_text_field()`, `absint()`, etc.).
+- Escape all outputs with `esc_html()`, `esc_attr()`, `esc_url()`, or `wp_kses_post()`.
+- Never write raw `$_POST`, `$_GET`, or `$_SERVER` values to the database.
+- Verify nonces in all form submissions and AJAX handlers.
+
+---
+
+## Writing a custom trigger
+
+1. **Create the class file** at `includes/triggers/class-flowpress-trigger-{slug}.php`:
+
+```php
+<?php
+/**
+ * Fires when a Contact Form 7 form is submitted.
+ *
+ * @package FlowPress
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+class FlowPress_Trigger_CF7_Submitted extends FlowPress_Abstract_Trigger {
+
+    public function get_type(): string {
+        return 'cf7_submitted';
+    }
+
+    public function get_label(): string {
+        return __( 'CF7 Form Submitted', 'flowpress' );
+    }
+
+    public function get_description(): string {
+        return __( 'Fires when any Contact Form 7 form is submitted successfully.', 'flowpress' );
+    }
+
+    public function get_icon(): string {
+        return 'dashicons-email-alt';
+    }
+
+    public function get_tokens(): array {
+        return array(
+            array( 'token' => 'form_id',    'label' => __( 'Form ID', 'flowpress' ) ),
+            array( 'token' => 'form_title', 'label' => __( 'Form title', 'flowpress' ) ),
+            array( 'token' => 'sender_email', 'label' => __( 'Sender email', 'flowpress' ) ),
+        );
+    }
+
+    public function register_hook(): void {
+        add_action( 'wpcf7_mail_sent', array( $this, 'handle' ) );
+    }
+
+    public function handle( $cf7 ): void {
+        $submission = WPCF7_Submission::get_instance();
+        $payload    = array(
+            'form_id'      => $cf7->id(),
+            'form_title'   => $cf7->title(),
+            'sender_email' => $submission ? $submission->get_posted_data( 'your-email' ) : '',
+        );
+        FlowPress_Runner::run( $this->get_type(), $payload );
+    }
+}
 ```
 
-**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `build`.
+2. **Register the trigger** via the `flowpress_register_triggers` hook (from your own plugin):
 
-**Examples:**
-
-```
-feat(activator): enforce minimum PHP 7.4 on activation
-fix(i18n): load text domain on plugins_loaded instead of init
-docs(readme): add Composer installation instructions
-test(activation): assert FLOWPRESS_VERSION constant is defined
-chore(ci): add PHP 8.2 to PHPUnit matrix
+```php
+add_action( 'flowpress_register_triggers', function ( string $registry ): void {
+    $registry::register( new FlowPress_Trigger_CF7_Submitted() );
+} );
 ```
 
-- Keep the summary line under 72 characters.
-- Use the imperative mood: "add feature" not "added feature".
-- Reference issues in the footer: `Closes #42` or `Fixes #17`.
+3. **Write tests** covering `get_tokens()` returns the expected format and that `handle()` calls `FlowPress_Runner::run()` with the correct payload.
+
+---
+
+## Writing a custom action
+
+1. **Create the class file** at `includes/actions/class-flowpress-action-{slug}.php`:
+
+```php
+<?php
+/**
+ * Posts a message to a Slack channel.
+ *
+ * @package FlowPress
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+class FlowPress_Action_Send_Slack extends FlowPress_Abstract_Action {
+
+    public function get_type(): string {
+        return 'send_slack';
+    }
+
+    public function get_label(): string {
+        return __( 'Send Slack Message', 'flowpress' );
+    }
+
+    public function get_description(): string {
+        return __( 'Post a message to a Slack channel via an Incoming Webhook URL.', 'flowpress' );
+    }
+
+    public function get_icon(): string {
+        return 'dashicons-format-chat';
+    }
+
+    public function get_fields(): array {
+        return array(
+            array(
+                'key'         => 'webhook_url',
+                'label'       => __( 'Slack Webhook URL', 'flowpress' ),
+                'type'        => 'url',
+                'required'    => true,
+                'placeholder' => 'https://hooks.slack.com/services/…',
+            ),
+            array(
+                'key'         => 'message',
+                'label'       => __( 'Message', 'flowpress' ),
+                'type'        => 'textarea',
+                'required'    => true,
+                'placeholder' => __( 'New post: {{post_title}} — {{post_url}}', 'flowpress' ),
+            ),
+        );
+    }
+
+    public function execute( array $config, array $payload ): FlowPress_Action_Result {
+        $url     = esc_url_raw( $config['webhook_url'] ?? '' );
+        $message = $config['message'] ?? '';
+
+        if ( empty( $url ) || empty( $message ) ) {
+            return FlowPress_Action_Result::failed( 'Missing webhook_url or message.' );
+        }
+
+        $response = wp_remote_post( $url, array(
+            'body'        => wp_json_encode( array( 'text' => $message ) ),
+            'headers'     => array( 'Content-Type' => 'application/json' ),
+            'timeout'     => 10,
+        ) );
+
+        if ( is_wp_error( $response ) ) {
+            return FlowPress_Action_Result::failed( $response->get_error_message() );
+        }
+
+        return FlowPress_Action_Result::success( 'Message posted.' );
+    }
+}
+```
+
+2. **Register the action** via the `flowpress_register_actions` hook:
+
+```php
+add_action( 'flowpress_register_actions', function ( string $registry ): void {
+    $registry::register( new FlowPress_Action_Send_Slack() );
+} );
+```
+
+3. **Write tests** covering `execute()` returns a `success` result on a 200 response and a `failed` result on a WP_Error.
+
+See [`docs/DEVELOPERS.md`](docs/DEVELOPERS.md) and [`example-integration/`](example-integration/) for the full API reference.
+
+---
+
+## Tests
+
+```bash
+# Run all tests
+composer test
+
+# Run a single test file
+./vendor/bin/phpunit tests/test-runner.php
+
+# Run with coverage (requires Xdebug or PCOV)
+./vendor/bin/phpunit --coverage-text
+```
+
+Tests live in `tests/` and extend `WP_UnitTestCase`. The CI matrix runs on PHP 7.4, 8.1, and 8.2 against the latest WordPress on every push and pull request.
+
+---
+
+## Questions?
+
+Open a [GitHub Discussion](https://github.com/arunrajiah/flowpress/discussions) or file an issue. Happy to help new contributors get started.

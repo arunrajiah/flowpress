@@ -68,5 +68,5 @@ Full initial release across 8 development phases.
 - `.distignore` for release ZIP generation
 - `CHANGELOG.md` updated to reflect all phases
 
-[Unreleased]: https://github.com/flowpress/flowpress/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/flowpress/flowpress/releases/tag/v0.1.0
+[Unreleased]: https://github.com/arunrajiah/flowpress/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/arunrajiah/flowpress/releases/tag/v0.1.0
