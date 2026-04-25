@@ -1,0 +1,45 @@
+{
+    "name": "flowpress/flowpress",
+    "description": "Automate 'when X happens on my site, do Y' — a free, on-site WordPress automation engine.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "FlowPress Contributors",
+            "homepage": "https://github.com/flowpress/flowpress/graphs/contributors"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/flowpress/flowpress/issues",
+        "source": "https://github.com/flowpress/flowpress"
+    },
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "wp-coding-standards/wpcs": "^3.0",
+        "phpcompatibility/phpcompatibility-wp": "*",
+        "squizlabs/php_codesniffer": "^3.7",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "yoast/phpunit-polyfills": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FlowPress\\": "includes/"
+        }
+    },
+    "scripts": {
+        "cs": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-text"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

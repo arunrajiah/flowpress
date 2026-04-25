@@ -1,0 +1,901 @@
+/* ============================================================
+   FlowPress Admin Styles
+   ============================================================ */
+
+/* ── Layout ───────────────────────────────────────────────── */
+
+.fp-builder-wrap {
+  max-width: 1200px;
+}
+
+.fp-builder-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.fp-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #646970;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.fp-back-link:hover {
+  color: #135e96;
+}
+
+.fp-builder-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fp-builder-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media ( max-width: 1024px ) {
+  .fp-builder-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fp-builder-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fp-builder-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 32px;
+}
+
+/* ── Cards ────────────────────────────────────────────────── */
+
+.fp-card {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fp-card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f9f9f9;
+}
+
+.fp-card-header h2,
+.fp-card-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fp-card-body {
+  padding: 20px;
+}
+
+/* Step cards */
+.fp-step-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f9f9f9;
+}
+
+.fp-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #135e96;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fp-step-title {
+  margin: 0 0 2px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.fp-step-subtitle {
+  margin: 0;
+  color: #646970;
+  font-size: 13px;
+}
+
+/* ── Form fields ──────────────────────────────────────────── */
+
+.fp-field {
+  margin-bottom: 16px;
+}
+
+.fp-field:last-child {
+  margin-bottom: 0;
+}
+
+.fp-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.fp-required {
+  color: #d63638;
+  margin-left: 2px;
+}
+
+.fp-optional {
+  font-weight: 400;
+  color: #646970;
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+.fp-input {
+  width: 100%;
+  max-width: 600px;
+  padding: 8px 10px;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.fp-input:focus {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
+  outline: 2px solid transparent;
+}
+
+.fp-input-error {
+  border-color: #d63638 !important;
+  box-shadow: 0 0 0 1px #d63638 !important;
+}
+
+.fp-textarea {
+  resize: vertical;
+  min-height: 90px;
+  font-family: inherit;
+}
+
+.fp-field-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.fp-field-label-row .fp-label {
+  margin-bottom: 0;
+}
+
+.fp-input-wrap {
+  position: relative;
+}
+
+.fp-field-help {
+  margin: 6px 0 0;
+  color: #646970;
+  font-size: 12px;
+}
+
+.fp-field-error {
+  color: #d63638;
+  font-size: 12px;
+  margin-top: 4px;
+  min-height: 16px;
+}
+
+/* ── Catalogue ────────────────────────────────────────────── */
+
+.fp-catalogue {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fp-search-wrap {
+  position: relative;
+}
+
+.fp-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8c8f94;
+  pointer-events: none;
+}
+
+.fp-search-input {
+  width: 100%;
+  padding: 8px 10px 8px 36px;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.fp-search-input:focus {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
+  outline: 2px solid transparent;
+}
+
+.fp-catalogue-list {
+  display: grid;
+  grid-template-columns: repeat( auto-fill, minmax( 260px, 1fr ) );
+  gap: 8px;
+}
+
+.fp-catalogue-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  background: #fafafa;
+  text-align: left;
+}
+
+.fp-catalogue-card:hover,
+.fp-catalogue-card:focus {
+  border-color: #2271b1;
+  background: #f0f6fc;
+  outline: 2px solid #2271b1;
+  outline-offset: -2px;
+}
+
+.fp-card-icon {
+  font-size: 24px;
+  color: #2271b1;
+  flex-shrink: 0;
+}
+
+.fp-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fp-card-label {
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.fp-card-desc {
+  font-size: 12px;
+  color: #646970;
+  line-height: 1.3;
+}
+
+.fp-no-results {
+  color: #646970;
+  font-style: italic;
+  margin: 8px 0 0;
+}
+
+/* ── Selected trigger/action bar ──────────────────────────── */
+
+.fp-selected-item {
+  border: 1px solid #2271b1;
+  border-radius: 4px;
+  background: #f0f6fc;
+}
+
+.fp-selected-item-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.fp-item-icon {
+  font-size: 22px;
+  color: #2271b1;
+  flex-shrink: 0;
+}
+
+.fp-item-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fp-item-desc {
+  font-size: 12px;
+  color: #646970;
+}
+
+.fp-change-btn {
+  background: none;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #2c3338;
+  flex-shrink: 0;
+}
+
+.fp-change-btn:hover,
+.fp-change-btn:focus {
+  border-color: #2271b1;
+  color: #2271b1;
+  outline: 2px solid #2271b1;
+}
+
+/* ── Action blocks ────────────────────────────────────────── */
+
+#fp-actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.fp-action-block {
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fp-action-block-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #f6f7f7;
+  border-bottom: 1px solid #c3c4c7;
+}
+
+.fp-action-number {
+  font-size: 18px;
+  color: #2271b1;
+  flex-shrink: 0;
+}
+
+.fp-action-type-select {
+  flex: 1;
+  font-size: 13px;
+  padding: 5px 8px;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+}
+
+.fp-action-type-select:focus {
+  border-color: #2271b1;
+  box-shadow: 0 0 0 1px #2271b1;
+  outline: 2px solid transparent;
+}
+
+.fp-remove-action {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #8c8f94;
+  padding: 4px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.fp-remove-action:hover,
+.fp-remove-action:focus {
+  color: #d63638;
+  outline: 2px solid #d63638;
+}
+
+.fp-action-fields {
+  padding: 16px 14px 8px;
+}
+
+.fp-action-field .fp-input {
+  max-width: 100%;
+}
+
+.fp-add-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px dashed #8c8f94;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #2271b1;
+  width: 100%;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.fp-add-action-btn:hover,
+.fp-add-action-btn:focus {
+  border-color: #2271b1;
+  background: #f0f6fc;
+  outline: 2px solid #2271b1;
+}
+
+/* ── Token insert dropdown ────────────────────────────────── */
+
+.fp-token-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.fp-token-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 1px solid #8c8f94;
+  border-radius: 3px;
+  padding: 3px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #2271b1;
+  white-space: nowrap;
+}
+
+.fp-token-toggle:hover,
+.fp-token-toggle:focus {
+  border-color: #2271b1;
+  background: #f0f6fc;
+  outline: 2px solid #2271b1;
+}
+
+.fp-token-menu {
+  position: absolute;
+  right: 0;
+  top: calc( 100% + 4px );
+  z-index: 999;
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba( 0, 0, 0, 0.12 );
+  min-width: 240px;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+}
+
+.fp-dropdown-open .fp-token-menu {
+  display: block;
+}
+
+.fp-token-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.fp-token-item:last-child {
+  border-bottom: none;
+}
+
+.fp-token-item:hover,
+.fp-token-item:focus {
+  background: #f0f6fc;
+  outline: none;
+}
+
+.fp-token-item code {
+  background: #f0f0f1;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 11px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.fp-token-label {
+  color: #646970;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Summary card ─────────────────────────────────────────── */
+
+.fp-summary-text {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+  color: #2c3338;
+}
+
+.fp-summary-empty {
+  color: #646970;
+}
+
+/* ── Save card / sidebar buttons ──────────────────────────── */
+
+.fp-save-card .fp-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fp-save-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.fp-full-width {
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.fp-divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 4px 0;
+}
+
+.fp-incomplete-warning {
+  color: #92400e;
+  font-size: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 4px 0 0;
+}
+
+/* ── Status badges ────────────────────────────────────────── */
+
+.fp-status {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fp-status--enabled  { background: #d1fae5; color: #065f46; }
+.fp-status--disabled { background: #fee2e2; color: #991b1b; }
+.fp-status--draft    { background: #f3f4f6; color: #6b7280; }
+
+.fp-title-badge {
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+/* ── Run log ──────────────────────────────────────────────── */
+
+.fp-log-card {
+  margin-top: 24px;
+}
+
+.fp-run-log-table th,
+.fp-audit-table th {
+  font-weight: 600;
+}
+
+.fp-no-runs {
+  color: #646970;
+  font-style: italic;
+}
+
+.fp-error {
+  color: #991b1b;
+}
+
+/* ── Test result box ──────────────────────────────────────── */
+
+.fp-test-result-box {
+  margin: 16px 0;
+  padding: 12px 16px;
+}
+
+/* ── Delete link ──────────────────────────────────────────── */
+
+.fp-delete-link {
+  color: #b91c1c !important;
+}
+
+.fp-delete-link:hover {
+  color: #7f1d1d !important;
+}
+
+/* ── Completeness icons (list table) ──────────────────────── */
+
+.fp-complete   { color: #16a34a; }
+.fp-incomplete { color: #d97706; }
+
+/* ── Conditions section ───────────────────────────────────── */
+
+.fp-conditions-logic-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #3c434a;
+}
+
+.fp-conditions-logic-row select {
+  max-width: 100px;
+}
+
+#fp-conditions-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.fp-condition-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.fp-cond-field,
+.fp-cond-operator {
+  min-width: 140px;
+}
+
+.fp-cond-value {
+  flex: 1;
+  min-width: 120px;
+}
+
+.fp-remove-condition {
+  padding: 2px 6px !important;
+  min-height: unset !important;
+  line-height: 1.4 !important;
+  color: #b91c1c !important;
+  border-color: #b91c1c !important;
+  background: transparent !important;
+}
+
+.fp-remove-condition:hover {
+  background: #fef2f2 !important;
+}
+
+#fp-add-condition {
+  margin-top: 4px;
+}
+
+/* Step badge optional variant */
+.fp-step-number--optional {
+  background: #f0f0f1;
+  color: #646970;
+}
+
+/* ── Runs dashboard ───────────────────────────────────────── */
+
+.fp-status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fp-status-success { background: #dcfce7; color: #166534; }
+.fp-status-failed  { background: #fee2e2; color: #991b1b; }
+.fp-status-skipped { background: #fef9c3; color: #854d0e; }
+.fp-status-dry_run { background: #ede9fe; color: #5b21b6; }
+
+.fp-rerun-btn {
+  cursor: pointer;
+}
+
+.fp-runs-filters {
+  margin-bottom: 8px;
+}
+
+.fp-runs-filters a {
+  margin-right: 6px;
+}
+
+.fp-retry-note {
+  margin-top: 8px;
+  color: #646970;
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* ── Incoming webhook config panel ────────────────────────── */
+
+.fp-webhook-config-panel {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: #f6f7f7;
+  border-left: 4px solid #2271b1;
+  border-radius: 2px;
+}
+
+.fp-webhook-config-panel .description code {
+  word-break: break-all;
+}
+
+/* ── Promo banner (top of every FlowPress screen) ──────────── */
+
+@keyframes fp-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes fp-pulse-heart {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.3); }
+}
+
+.fp-promo-banner {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1a0533 0%, #3b0f8c 35%, #1565c0 70%, #0d47a1 100%);
+  box-shadow: 0 4px 24px rgba(59, 15, 140, 0.45), 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Glow orb — top-right */
+.fp-promo-banner::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: 260px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Glow orb — bottom-left */
+.fp-promo-banner::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: 60px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.fp-promo-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  flex-wrap: wrap;
+}
+
+/* Spinning icon */
+.fp-promo-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  flex-shrink: 0;
+  backdrop-filter: blur(4px);
+}
+
+.fp-promo-logo .dashicons {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  color: #c4b5fd;
+}
+
+/* Text block */
+.fp-promo-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.fp-promo-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.3px;
+}
+
+.fp-promo-tagline {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.4;
+}
+
+.fp-promo-tagline a {
+  color: #93c5fd;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.fp-promo-tagline a:hover {
+  color: #bfdbfe;
+}
+
+/* Sponsor CTA button */
+.fp-promo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  background: linear-gradient(135deg, #f43f5e 0%, #ec4899 100%);
+  color: #fff !important;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 24px;
+  text-decoration: none !important;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.5), 0 2px 8px rgba(244, 63, 94, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  letter-spacing: 0.2px;
+}
+
+.fp-promo-btn:hover {
+  background: linear-gradient(135deg, #e11d48 0%, #db2777 100%);
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.2), 0 4px 16px rgba(244, 63, 94, 0.5);
+}
+
+.fp-promo-btn-heart {
+  display: inline-block;
+  animation: fp-pulse-heart 1.4s ease-in-out infinite;
+  font-size: 14px;
+  line-height: 1;
+}

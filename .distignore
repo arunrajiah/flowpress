@@ -1,0 +1,39 @@
+# Files and directories excluded from the WordPress.org plugin ZIP.
+# Used by tools like wp-cli dist-archive or GitHub Actions release workflows.
+
+# Development tooling
+.github/
+.distignore
+composer.json
+composer.lock
+phpcs.xml
+phpunit.xml
+phpunit.xml.dist
+.phpcs.xml
+.phpcs.xml.dist
+
+# Tests
+tests/
+bin/
+
+# Docs (developer-facing — not needed for end users)
+docs/
+example-integration/
+flowpress-hooks.php
+
+# VCS
+.git/
+.gitignore
+.gitattributes
+
+# Editor / OS
+.editorconfig
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Node (if added in future)
+node_modules/
+package.json
+package-lock.json

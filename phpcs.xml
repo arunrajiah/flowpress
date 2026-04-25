@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name="FlowPress"
+         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+
+    <description>FlowPress coding standards — based on WordPress-Extra with security additions.</description>
+
+    <!-- Files to check -->
+    <file>flowpress.php</file>
+    <file>uninstall.php</file>
+    <file>includes/</file>
+    <file>tests/</file>
+
+    <!-- Exclude third-party code -->
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>node_modules/*</exclude-pattern>
+
+    <!-- Use WordPress rulesets -->
+    <rule ref="WordPress-Core"/>
+    <rule ref="WordPress-Docs"/>
+    <rule ref="WordPress-Extra"/>
+
+    <!-- Minimum PHP version -->
+    <config name="minimum_supported_wp_version" value="5.9"/>
+    <config name="testVersion" value="7.4-"/>
+
+    <!-- Text domain -->
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="flowpress"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Prefix rules -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="flowpress"/>
+                <element value="FlowPress"/>
+                <element value="FLOWPRESS"/>
+            </property>
+        </properties>
+    </rule>
+
+</ruleset>

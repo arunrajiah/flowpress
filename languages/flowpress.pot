@@ -1,0 +1,20 @@
+# Copyright (C) 2024 FlowPress Contributors
+# This file is distributed under the same license as the FlowPress plugin.
+# FlowPress Contributors <https://github.com/flowpress/flowpress>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FlowPress 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/flowpress/flowpress/issues\n"
+"POT-Creation-Date: 2024-01-01 00:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: WP-CLI 2.9.0\n"
+"X-Domain: flowpress\n"

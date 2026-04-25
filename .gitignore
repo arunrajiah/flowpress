@@ -1,0 +1,46 @@
+# Composer
+vendor/
+composer.lock
+
+# Node
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artefacts
+*.zip
+*.tar.gz
+dist/
+build/
+
+# WordPress test library (installed locally by bin/install-wp-tests.sh)
+wordpress-tests-lib/
+wordpress/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE / editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.phpunit.result.cache
+.phpunit.cache/
+
+# Environment
+.env
+.env.local
+
+# Code coverage
+coverage/
+clover.xml
