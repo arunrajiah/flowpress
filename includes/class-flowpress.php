@@ -124,6 +124,7 @@ class FlowPress {
 	 */
 	private function load_dependencies() {
 		require_once FLOWPRESS_PLUGIN_DIR . 'includes/class-flowpress-i18n.php';
+		require_once FLOWPRESS_PLUGIN_DIR . 'includes/class-flowpress-settings.php';
 		require_once FLOWPRESS_PLUGIN_DIR . 'includes/class-flowpress-audit-log.php';
 		require_once FLOWPRESS_PLUGIN_DIR . 'includes/class-flowpress-recipe-post-type.php';
 		require_once FLOWPRESS_PLUGIN_DIR . 'includes/class-flowpress-recipe.php';
@@ -152,6 +153,7 @@ class FlowPress {
 		require_once FLOWPRESS_PLUGIN_DIR . 'includes/triggers/class-flowpress-trigger-user-role-changed.php';
 		require_once FLOWPRESS_PLUGIN_DIR . 'includes/triggers/class-flowpress-trigger-woo-order-placed.php';
 		require_once FLOWPRESS_PLUGIN_DIR . 'includes/triggers/class-flowpress-trigger-incoming-webhook.php';
+		require_once FLOWPRESS_PLUGIN_DIR . 'includes/triggers/class-flowpress-trigger-scheduled.php';
 
 		// Core actions.
 		require_once FLOWPRESS_PLUGIN_DIR . 'includes/actions/class-flowpress-action-send-email.php';
@@ -163,6 +165,7 @@ class FlowPress {
 			require_once FLOWPRESS_PLUGIN_DIR . 'includes/admin/class-flowpress-admin.php';
 			require_once FLOWPRESS_PLUGIN_DIR . 'includes/admin/class-flowpress-recipes-list-table.php';
 			require_once FLOWPRESS_PLUGIN_DIR . 'includes/admin/class-flowpress-runs-admin.php';
+			require_once FLOWPRESS_PLUGIN_DIR . 'includes/admin/class-flowpress-settings-admin.php';
 		}
 	}
 
@@ -202,6 +205,7 @@ class FlowPress {
 				$registry_class::register( new FlowPress_Trigger_User_Role_Changed() );
 				$registry_class::register( new FlowPress_Trigger_Woo_Order_Placed() );
 				$registry_class::register( new FlowPress_Trigger_Incoming_Webhook() );
+				$registry_class::register( new FlowPress_Trigger_Scheduled() );
 			}
 		);
 
@@ -228,12 +232,21 @@ class FlowPress {
 		// WP-Cron hook for retry queue.
 		add_action( FlowPress_Retry_Queue::CRON_HOOK, array( 'FlowPress_Retry_Queue', 'process' ) );
 
+		// Log retention cleanup — fires once daily.
+		add_action( 'flowpress_log_cleanup', array( 'FlowPress_Run_Log', 'prune_old_entries' ) );
+		if ( ! wp_next_scheduled( 'flowpress_log_cleanup' ) ) {
+			wp_schedule_event( time(), 'daily', 'flowpress_log_cleanup' );
+		}
+
 		if ( is_admin() ) {
 			$admin = new FlowPress_Admin();
 			$admin->register();
 
 			$runs_admin = new FlowPress_Runs_Admin();
 			$runs_admin->register();
+
+			$settings_admin = new FlowPress_Settings_Admin();
+			$settings_admin->register();
 		}
 	}
 

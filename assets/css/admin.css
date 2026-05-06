@@ -874,3 +874,98 @@
   line-height: 1;
   animation: fp-pulse-heart 1.6s ease-in-out infinite;
 }
+
+/* =========================================================
+   Settings page
+   ========================================================= */
+
+.fp-settings-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1d2327;
+  margin: 28px 0 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.fp-settings-section-title:first-of-type {
+  margin-top: 12px;
+}
+
+.fp-settings-section-title .dashicons {
+  color: #2271b1;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 1.1;
+}
+
+.fp-settings-section-desc {
+  margin: 0 0 12px;
+  color: #646970;
+  font-size: 13px;
+}
+
+.fp-settings-table {
+  margin-top: 0 !important;
+}
+
+.fp-settings-table th {
+  padding-top: 14px;
+  font-weight: 600;
+}
+
+.fp-settings-unit {
+  margin-left: 6px;
+  color: #646970;
+  font-size: 13px;
+}
+
+/* =========================================================
+   Import form (Recipes list page)
+   ========================================================= */
+
+.fp-import-form {
+  margin-top: 28px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  max-width: 480px;
+}
+
+.fp-import-form h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d2327;
+}
+
+.fp-import-form .description {
+  margin: 0 0 12px;
+  color: #646970;
+  font-size: 13px;
+}
+
+.fp-import-form form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fp-import-form input[type="file"] {
+  font-size: 13px;
+  flex: 1;
+  min-width: 0;
+}
+
+.fp-import-form .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}

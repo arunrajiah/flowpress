@@ -109,7 +109,9 @@ class FlowPress_Retry_Queue {
 
 		$next_attempt = $current_attempt + 1;
 
-		if ( $next_attempt > self::MAX_ATTEMPTS ) {
+		$max_attempts = FlowPress_Settings::max_retry_attempts();
+
+		if ( $next_attempt > $max_attempts ) {
 			return; // Exhausted all retries.
 		}
 
@@ -126,7 +128,7 @@ class FlowPress_Retry_Queue {
 				'action_type'     => sanitize_key( $action_type ),
 				'action_config'   => wp_json_encode( $action_config ),
 				'attempt'         => absint( $next_attempt ),
-				'max_attempts'    => self::MAX_ATTEMPTS,
+				'max_attempts'    => $max_attempts,
 				'status'          => 'pending',
 				'created_at'      => current_time( 'mysql', true ),
 			),

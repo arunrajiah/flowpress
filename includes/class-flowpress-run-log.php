@@ -148,4 +148,36 @@ class FlowPress_Run_Log {
 			array( '%d' )
 		);
 	}
+
+	/**
+	 * Delete run log entries older than the configured retention period.
+	 *
+	 * Called by the daily `flowpress_log_cleanup` WP-Cron event. Does nothing
+	 * if log retention is set to 0 (keep forever).
+	 *
+	 * @since  0.2.0
+	 * @global wpdb $wpdb
+	 * @return int  Number of rows deleted.
+	 */
+	public static function prune_old_entries(): int {
+		$days = FlowPress_Settings::log_retention_days();
+
+		if ( $days <= 0 ) {
+			return 0; // Keep forever.
+		}
+
+		global $wpdb;
+		$table     = $wpdb->prefix . self::TABLE_NAME;
+		$threshold = gmdate( 'Y-m-d H:i:s', strtotime( "-{$days} days" ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$deleted = $wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM `{$table}` WHERE created_at < %s",
+				$threshold
+			)
+		);
+
+		return (int) $deleted;
+	}
 }

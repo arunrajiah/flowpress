@@ -115,6 +115,12 @@ class FlowPress_Action_Send_Email extends FlowPress_Abstract_Action {
 			);
 		}
 
+		// Apply From name / email from FlowPress settings.
+		$from_name  = FlowPress_Settings::from_name();
+		$from_email = FlowPress_Settings::from_email();
+		add_filter( 'wp_mail_from',      static function () use ( $from_email ) { return $from_email; } );
+		add_filter( 'wp_mail_from_name', static function () use ( $from_name )  { return $from_name;  } );
+
 		$sent = wp_mail( $to, $subject, $body );
 
 		if ( $sent ) {

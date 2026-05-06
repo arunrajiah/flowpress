@@ -35,6 +35,7 @@ class FlowPress_Admin {
 		// so wp_safe_redirect() works correctly.
 		add_action( 'admin_init', array( $this, 'handle_early_post' ) );
 		add_action( 'admin_init', array( $this, 'handle_early_list_action' ) );
+		add_action( 'admin_init', array( $this, 'handle_import_recipe' ) );
 
 		// Plugin row meta links (Plugins screen).
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
@@ -45,6 +46,7 @@ class FlowPress_Admin {
 		add_action( 'wp_ajax_flowpress_duplicate_recipe', array( $this, 'ajax_duplicate_recipe' ) );
 		add_action( 'wp_ajax_flowpress_toggle_recipe_status', array( $this, 'ajax_toggle_recipe_status' ) );
 		add_action( 'wp_ajax_flowpress_test_recipe', array( $this, 'ajax_test_recipe' ) );
+		add_action( 'wp_ajax_flowpress_export_recipe', array( $this, 'ajax_export_recipe' ) );
 	}
 
 	/**
@@ -171,6 +173,89 @@ class FlowPress_Admin {
 	 * @since  0.2.0
 	 * @return void
 	 */
+	/**
+	 * Handle recipe import (file upload) on admin_init, before any HTML output.
+	 *
+	 * @since  0.2.0
+	 * @return void
+	 */
+	public function handle_import_recipe(): void {
+		if ( 'POST' !== $_SERVER['REQUEST_METHOD'] ) {
+			return;
+		}
+
+		$page = isset( $_GET['page'] ) ? sanitize_key( $_GET['page'] ) : '';
+		if ( 'flowpress' !== $page ) {
+			return;
+		}
+
+		if ( empty( $_POST['fp_import_recipe'] ) ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		check_admin_referer( 'flowpress_import_recipe' );
+
+		if ( empty( $_FILES['fp_import_file']['tmp_name'] ) ) {
+			wp_safe_redirect( add_query_arg( 'fp_notice', 'import_no_file', admin_url( 'admin.php?page=flowpress' ) ) );
+			exit;
+		}
+
+		$file    = $_FILES['fp_import_file']['tmp_name']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+		$content = file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		if ( false === $content ) {
+			wp_safe_redirect( add_query_arg( 'fp_notice', 'import_error', admin_url( 'admin.php?page=flowpress' ) ) );
+			exit;
+		}
+
+		$json = json_decode( $content, true );
+		if ( ! is_array( $json ) || empty( $json['recipe'] ) || ! is_array( $json['recipe'] ) ) {
+			wp_safe_redirect( add_query_arg( 'fp_notice', 'import_invalid', admin_url( 'admin.php?page=flowpress' ) ) );
+			exit;
+		}
+
+		$r = $json['recipe'];
+
+		$result = FlowPress_Recipe::create(
+			array(
+				'title'          => sanitize_text_field( $r['title'] ?? __( 'Imported Recipe', 'flowpress' ) ),
+				'description'    => sanitize_textarea_field( $r['description'] ?? '' ),
+				'trigger'        => sanitize_key( $r['trigger'] ?? '' ),
+				'trigger_config' => is_array( $r['trigger_config'] ?? null ) ? array_map( 'sanitize_text_field', $r['trigger_config'] ) : array(),
+				'conditions'     => $r['conditions'] ?? array(),
+				'actions'        => $r['actions'] ?? array(),
+			)
+		);
+
+		if ( is_wp_error( $result ) ) {
+			wp_safe_redirect( add_query_arg( 'fp_notice', 'import_error', admin_url( 'admin.php?page=flowpress' ) ) );
+			exit;
+		}
+
+		FlowPress_Audit_Log::log( $result->get_id(), 'created', __( 'Recipe imported from JSON.', 'flowpress' ) );
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'      => 'flowpress-edit',
+					'recipe_id' => $result->get_id(),
+					'fp_notice' => 'imported',
+				),
+				admin_url( 'admin.php' )
+			)
+		);
+		exit;
+	}
+
+	/**
+	 * Register the top-level FlowPress admin menu.
+	 *
+	 * @since  0.2.0
+	 * @return void
+	 */
 	public function register_menus() {
 		add_menu_page(
 			__( 'FlowPress', 'flowpress' ),
@@ -219,6 +304,16 @@ class FlowPress_Admin {
 			'flowpress-runs',
 			array( $this, 'render_runs_page' )
 		);
+
+		// Settings.
+		add_submenu_page(
+			'flowpress',
+			__( 'Settings', 'flowpress' ),
+			__( 'Settings', 'flowpress' ),
+			'manage_options',
+			'flowpress-settings',
+			array( $this, 'render_settings_page' )
+		);
 	}
 
 	/**
@@ -230,6 +325,17 @@ class FlowPress_Admin {
 	public function render_runs_page() {
 		$runs_admin = new FlowPress_Runs_Admin();
 		$runs_admin->render();
+	}
+
+	/**
+	 * Render the Settings page.
+	 *
+	 * @since  0.2.0
+	 * @return void
+	 */
+	public function render_settings_page() {
+		$settings_admin = new FlowPress_Settings_Admin();
+		$settings_admin->render();
 	}
 
 	/**
@@ -245,6 +351,7 @@ class FlowPress_Admin {
 			'flowpress_page_flowpress-new',
 			'flowpress_page_flowpress-edit',
 			'flowpress_page_flowpress-runs',
+			'flowpress_page_flowpress-settings',
 		);
 
 		if ( ! in_array( $hook_suffix, $flowpress_hooks, true ) ) {
@@ -341,6 +448,21 @@ class FlowPress_Admin {
 		echo '<form method="post">';
 		$list_table->display();
 		echo '</form>';
+
+		// Import form.
+		echo '<div class="fp-import-form">';
+		echo '<h3>' . esc_html__( 'Import Recipe', 'flowpress' ) . '</h3>';
+		echo '<p class="description">' . esc_html__( 'Upload a FlowPress JSON export file to create a new recipe.', 'flowpress' ) . '</p>';
+		echo '<form method="post" enctype="multipart/form-data" action="' . esc_url( admin_url( 'admin.php?page=flowpress' ) ) . '">';
+		wp_nonce_field( 'flowpress_import_recipe' );
+		echo '<input type="file" name="fp_import_file" accept=".json" required>';
+		echo '<button type="submit" name="fp_import_recipe" value="1" class="button button-secondary">';
+		echo '<span class="dashicons dashicons-upload" style="line-height:1.6"></span> ';
+		echo esc_html__( 'Import JSON', 'flowpress' );
+		echo '</button>';
+		echo '</form>';
+		echo '</div>';
+
 		echo '</div>';
 	}
 
@@ -357,12 +479,16 @@ class FlowPress_Admin {
 		}
 
 		$messages = array(
-			'saved'      => array( 'success', __( 'Recipe saved.', 'flowpress' ) ),
-			'enabled'    => array( 'success', __( 'Recipe enabled.', 'flowpress' ) ),
-			'disabled'   => array( 'success', __( 'Recipe disabled.', 'flowpress' ) ),
-			'deleted'    => array( 'success', __( 'Recipe deleted.', 'flowpress' ) ),
-			'duplicated' => array( 'success', __( 'Recipe duplicated.', 'flowpress' ) ),
-			'error'      => array( 'error', __( 'Something went wrong. Please try again.', 'flowpress' ) ),
+			'saved'          => array( 'success', __( 'Recipe saved.', 'flowpress' ) ),
+			'enabled'        => array( 'success', __( 'Recipe enabled.', 'flowpress' ) ),
+			'disabled'       => array( 'success', __( 'Recipe disabled.', 'flowpress' ) ),
+			'deleted'        => array( 'success', __( 'Recipe deleted.', 'flowpress' ) ),
+			'duplicated'     => array( 'success', __( 'Recipe duplicated.', 'flowpress' ) ),
+			'imported'       => array( 'success', __( 'Recipe imported successfully.', 'flowpress' ) ),
+			'import_invalid' => array( 'error', __( 'Invalid JSON file. Please upload a valid FlowPress export.', 'flowpress' ) ),
+			'import_no_file' => array( 'error', __( 'No file selected. Please choose a JSON file to import.', 'flowpress' ) ),
+			'import_error'   => array( 'error', __( 'Import failed. The file may be corrupted.', 'flowpress' ) ),
+			'error'          => array( 'error', __( 'Something went wrong. Please try again.', 'flowpress' ) ),
 		);
 
 		if ( isset( $messages[ $notice ] ) ) {
@@ -652,6 +778,43 @@ class FlowPress_Admin {
 					: __( 'Recipe disabled.', 'flowpress' ),
 			)
 		);
+	}
+
+	/**
+	 * AJAX: export a recipe as a JSON file download.
+	 *
+	 * @since  0.2.0
+	 * @return void
+	 */
+	public function ajax_export_recipe() {
+		check_ajax_referer( 'flowpress_admin', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'flowpress' ) ), 403 );
+		}
+
+		$recipe_id = isset( $_POST['recipe_id'] ) ? absint( $_POST['recipe_id'] ) : 0;
+
+		try {
+			$recipe = new FlowPress_Recipe( $recipe_id );
+		} catch ( InvalidArgumentException $e ) {
+			wp_send_json_error( array( 'message' => __( 'Recipe not found.', 'flowpress' ) ), 404 );
+		}
+
+		$export = array(
+			'version' => FLOWPRESS_VERSION,
+			'exported' => current_time( 'c' ),
+			'recipe'  => array(
+				'title'          => $recipe->get_title(),
+				'description'    => $recipe->get_description(),
+				'trigger'        => $recipe->get_trigger(),
+				'trigger_config' => $recipe->get_trigger_config(),
+				'conditions'     => $recipe->get_conditions(),
+				'actions'        => $recipe->get_actions(),
+			),
+		);
+
+		wp_send_json_success( array( 'json' => wp_json_encode( $export, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) ) );
 	}
 
 	/**

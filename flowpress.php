@@ -11,7 +11,7 @@
  * Plugin Name:       FlowPress
  * Plugin URI:        https://github.com/flowpress/flowpress
  * Description:       A free, open-source WordPress plugin that automates "when X happens on my site, do Y" — a local, on-site automation engine. No subscriptions, no third-party servers.
- * Version:           0.1.0
+ * Version:           0.2.0
  * Requires at least: 5.9
  * Requires PHP:      7.4
  * Author:            FlowPress Contributors
@@ -31,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Current plugin version.
  */
-define( 'FLOWPRESS_VERSION', '0.1.0' );
+define( 'FLOWPRESS_VERSION', '0.2.0' );
 
 /**
  * The absolute path to the plugin directory, with trailing slash.

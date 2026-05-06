@@ -13,6 +13,34 @@ _(Nothing yet.)_
 
 ---
 
+## [0.2.0] — 2026-05-06
+
+### Added
+
+**Settings Page**
+- `FlowPress_Settings` model — single `flowpress_settings` option with typed accessors and defaults
+- Settings admin page at **FlowPress → Settings** (registered via `FlowPress_Settings_Admin`)
+- Configurable: default From Name and From Email for email actions, log retention period (days), max retry attempts
+- "Send Email" action now reads From name/email from settings (falls back to site name / admin email)
+- Retry queue now reads `max_retry_attempts` from settings instead of the hardcoded constant
+
+**Scheduled Trigger**
+- New `FlowPress_Trigger_Scheduled` trigger type
+- Frequencies: every hour, twice daily, daily, weekly
+- Single hourly WP-Cron tick (`flowpress_scheduled_tick`) checks all enabled scheduled recipes and fires those that are due (based on frequency and last-run timestamp stored in post meta)
+- Tokens: `current_date`, `current_time`, `current_datetime`, `site_name`, `site_url`, `admin_email`
+
+**Recipe Import / Export**
+- Export: **Export JSON** row action on the Recipes list — downloads the recipe as a portable `.json` file (via AJAX)
+- Import: file upload form at the bottom of the Recipes list page — creates a new recipe from a FlowPress JSON export
+- Export format: `{ version, exported, recipe: { title, description, trigger, trigger_config, conditions, actions } }`
+
+**Log Retention Cleanup**
+- Daily WP-Cron event `flowpress_log_cleanup` calls `FlowPress_Run_Log::prune_old_entries()` to delete run log rows older than the configured retention period
+- Setting to 0 keeps logs forever
+
+---
+
 ## [0.1.0] — 2026-04-24
 
 Full initial release across 8 development phases.

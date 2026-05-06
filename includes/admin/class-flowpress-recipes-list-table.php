@@ -171,9 +171,12 @@ class FlowPress_Recipes_List_Table extends WP_List_Table {
 		$duplicate_url = add_query_arg( array( 'page' => 'flowpress', 'fp_action' => 'duplicate', 'recipe_id' => $item->ID, '_wpnonce' => $nonce ), admin_url( 'admin.php' ) );
 		$delete_url    = add_query_arg( array( 'page' => 'flowpress', 'fp_action' => 'delete', 'recipe_id' => $item->ID, '_wpnonce' => $nonce ), admin_url( 'admin.php' ) );
 
+		$export_slug = sanitize_title( $item->post_title ?: 'recipe' ) . '-' . $item->ID;
+
 		$actions = array(
 			'edit'      => '<a href="' . esc_url( $edit_url ) . '">' . esc_html__( 'Edit', 'flowpress' ) . '</a>',
 			'duplicate' => '<a href="' . esc_url( $duplicate_url ) . '">' . esc_html__( 'Duplicate', 'flowpress' ) . '</a>',
+			'export'    => '<button type="button" class="button-link fp-export-btn" data-recipe-id="' . esc_attr( $item->ID ) . '" data-filename="' . esc_attr( 'flowpress-' . $export_slug . '.json' ) . '">' . esc_html__( 'Export JSON', 'flowpress' ) . '</button>',
 			'delete'    => '<a href="' . esc_url( $delete_url ) . '" class="fp-delete-link">' . esc_html__( 'Delete', 'flowpress' ) . '</a>',
 		);
 

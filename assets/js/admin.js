@@ -655,6 +655,38 @@
 		} );
 	} );
 
+	// ── Export recipe ──────────────────────────────────────────────────────────
+
+	$( document ).on( 'click', '.fp-export-btn', function ( e ) {
+		e.preventDefault();
+
+		var $btn      = $( this );
+		var recipeId  = $btn.data( 'recipe-id' );
+		var filename  = $btn.data( 'filename' ) || ( 'flowpress-recipe-' + recipeId + '.json' );
+
+		$btn.prop( 'disabled', true );
+
+		$.post(
+			flowpressAdmin.ajaxUrl,
+			{ action: 'flowpress_export_recipe', nonce: flowpressAdmin.nonce, recipe_id: recipeId },
+			function ( res ) {
+				if ( res.success && res.data && res.data.json ) {
+					var blob = new Blob( [ res.data.json ], { type: 'application/json' } );
+					var url  = URL.createObjectURL( blob );
+					var a    = document.createElement( 'a' );
+					a.href     = url;
+					a.download = filename;
+					document.body.appendChild( a );
+					a.click();
+					document.body.removeChild( a );
+					URL.revokeObjectURL( url );
+				}
+			}
+		).always( function () {
+			$btn.prop( 'disabled', false );
+		} );
+	} );
+
 	// ── Initialise builder on page load ────────────────────────────────────────
 
 	function initBuilder() {
