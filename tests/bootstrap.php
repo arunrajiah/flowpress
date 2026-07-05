@@ -42,3 +42,8 @@ tests_add_filter( 'muplugins_loaded', 'flowpress_manually_load_plugin' );
 
 // Start up the WP testing environment.
 require "{$_tests_dir}/includes/bootstrap.php";
+
+require_once dirname( __DIR__ ) . '/includes/class-flowpress-activator.php';
+require_once dirname( __DIR__ ) . '/includes/class-flowpress-deactivator.php';
+
+FlowPress_Activator::activate();
