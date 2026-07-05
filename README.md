@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/logo.svg" alt="FlowPress logo" width="96" height="96">
+</p>
+
 # FlowPress — Automation for WordPress
 
 [![CI](https://github.com/arunrajiah/flowpress/actions/workflows/ci.yml/badge.svg)](https://github.com/arunrajiah/flowpress/actions/workflows/ci.yml)
