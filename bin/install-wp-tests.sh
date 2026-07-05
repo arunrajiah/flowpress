@@ -40,6 +40,8 @@ elif [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
 	fi
 elif [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
 	WP_TESTS_TAG="trunk"
+elif [[ $WP_VERSION == 'latest' ]]; then
+	WP_TESTS_TAG="trunk"
 else
 	WP_TESTS_TAG="tags/$WP_VERSION"
 fi
