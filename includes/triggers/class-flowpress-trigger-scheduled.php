@@ -124,12 +124,22 @@ class FlowPress_Trigger_Scheduled extends FlowPress_Abstract_Trigger {
 	 * @since  0.2.0
 	 * @return void
 	 */
-	public function register_hook(): void {
+	public function attach(): void {
 		if ( ! wp_next_scheduled( self::CRON_HOOK ) ) {
 			wp_schedule_event( time(), 'hourly', self::CRON_HOOK );
 		}
 
 		add_action( self::CRON_HOOK, array( $this, 'tick' ) );
+	}
+
+	/**
+	 * Backward-compatible alias for older callers.
+	 *
+	 * @since  0.2.0
+	 * @return void
+	 */
+	public function register_hook(): void {
+		$this->attach();
 	}
 
 	// ── Cron tick ─────────────────────────────────────────────────────────────
